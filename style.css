@@ -1,44 +1,235 @@
+/* ==========================================================================
+   1. RESET, BASE E CONTAINER PRINCIPAL
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: #f4f6f8;
     padding: 20px;
     display: flex;
     justify-content: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
+
 .container {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
 }
+
 form {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
+
 input[type="text"] {
     flex: 1;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-family: inherit;
 }
+
 button {
     padding: 8px 12px;
-    background-color: #adadad;
+    background-color: #3fdae6;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
 }
-button.edit-btn { background-color: #adadad; color: black; margin-right: 5px; }
-button.delete-btn { background-color: #dc3545; }
-ul { list-style: none; padding: 0; }
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Força as tags LI originais a não aplicarem flexbox ou paddings que quebram o swipe */
 li {
-    display: flex;
-    justify-content: space-between;
+    display: block !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+}
+
+/* ==========================================================================
+   2. ESTRUTURA DOS CARTÕES EM CAMADAS (SWIPE MOBILE)
+   ========================================================================== */
+
+/* O container invisível do card fixa o tamanho e esconde os excessos */
+.todo-item-wrapper {
+    position: relative;
+    overflow: hidden; 
+    background-color: #f1f3f5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    height: 48px; 
+    display: block !important;
+    transition: transform 0.4s ease, opacity 0.4s ease, height 0.4s ease, margin-bottom 0.4s ease;
+}
+
+/* Os botões do banco ficam presos de forma ABSOLUTA no fundo, na DIREITA */
+.todo-actions-behind {
+    position: absolute !important;
+    top: 0;
+    right: 0; 
+    left: auto !important; 
+    width: 140px; 
+    height: 100%;
+    display: flex !important;
+    justify-content: flex-end;
+    z-index: 1; 
+}
+
+/* Estilização limpa dos botões ocultos */
+.todo-actions-behind button {
+    width: 70px !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-weight: bold !important;
+    color: white !important;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.todo-actions-behind button.edit-btn { background-color: #3b82f6 !important; }
+.todo-actions-behind button.delete-btn { background-color: #dc3545 !important; }
+
+/* Procure pela classe .todo-content-front e substitua por esta versão: */
+.todo-content-front {
+    position: absolute !important; /* Mudado para absolute para sobrepor o fundo perfeitamente */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important; /* Força a ocupar a largura total do card, selando os botões */
+    height: 100% !important;
+    background: white !important;
+    padding: 0 15px;
+    z-index: 2 !important; /* Garante que fique estritamente ACIMA dos botões coloridos */
+    display: flex !important;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    box-sizing: border-box; 
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+
+
+.texto-tarefa {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   3. EDIÇÃO INLINE E EXCLUSÃO CUSTOMIZADA
+   ========================================================================== */
+.input-edicao {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #adadad;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    margin-right: 8px;
+    font-family: inherit;
+}
+.input-edicao:focus {
+    border-color: #eab308;
+}
+
+.botoes-edicao-rapida {
+    display: flex;
+    gap: 4px;
+}
+.botoes-edicao-rapida button {
+    padding: 4px 10px !important;
+    font-size: 0.85rem;
+    border-radius: 6px !important;
+    height: 32px;
+    color: white;
+}
+
+.btn-salvar-inline { background-color: #28a745 !important; }
+.btn-cancelar-inline { background-color: #f53c3c !important; }
+.btn-confirmar-delete { background-color: #dc3545 !important; }
+
+.aviso-excluir {
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 0.95rem;
+    flex: 1;
+}
+
+/* ==========================================================================
+   4. PERFORMANCE E ANIMAÇÕES NITIDAS (SEM BLUR)
+   ========================================================================== */
+
+/* Entrada por cima límpida */
+@keyframes surgirTarefaNitida {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.adicionando-tarefa {
+    overflow: hidden;
+    margin-bottom: 10px;
+    height: 48px !important; 
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+.adicionando-tarefa .todo-content-front {
+    animation: surgirTarefaNitida 0.25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    transform: translateZ(0); 
+    will-change: transform, opacity;
+}
+
+/* Saída suave para a esquerda */
+.removendo-tarefa {
+    opacity: 0 !important;
+    transform: translateX(-100%) !important;
+    height: 0 !important;
+    margin-bottom: 0 !important;
+    border: none !important;
+}
+
+/* ==========================================================================
+   5. COMPATIBILIDADE DESKTOP (MONITOR)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .todo-content-front {
+        transform: none !important;
+        width: calc(100% - 140px) !important;
+        border-radius: 8px 0 0 8px;
+    }
+    .todo-item-wrapper {
+        overflow: visible;
+        display: flex !important;
+    }
+    .todo-actions-behind {
+        position: static !important;
+        width: 140px;
+    }
+    .todo-actions-behind button.edit-btn { border-radius: 0; }
+    .todo-actions-behind button.delete-btn { border-radius: 0 8px 8px 0; }
 }

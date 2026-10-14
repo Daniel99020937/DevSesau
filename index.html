@@ -2,18 +2,23 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Tarefas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Lista De Tarefas</h1>
+        
         <form id="form-tarefa">
-            <input type="text" id="input-tarefa" placeholder="Insira a tarefa..." required>
+            <input type="text" id="input-tarefa" placeholder="Insira a tarefa..." required autocomplete="off">
             <button type="submit">Salvar</button>
         </form>
+
+        <!-- A lista DEVE nascer vazia. O JavaScript cuidará de criar as camadas certas -->
         <ul id="lista-tarefas"></ul>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
