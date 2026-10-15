@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tarefas</title>
+    <title>Gerenciador de Tarefas SaaS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="container">
-        <h1>Lista De Tarefas</h1>
-        
+        <h1>Lista de Tarefas</h1>
+
+        <!-- O motor de busca local será injetado dinamicamente aqui pelo script.js -->
+
+        <!-- Formulário de cadastro de novas tarefas -->
         <form id="form-tarefa">
-            <input type="text" id="input-tarefa" placeholder="Insira a tarefa..." required autocomplete="off">
+            <input type="text" id="input-tarefa" placeholder="Insira a tarefa..." autocomplete="off">
             <button type="submit">Salvar</button>
         </form>
 
-        <!-- A lista DEVE nascer vazia. O JavaScript cuidará de criar as camadas certas -->
+        <!-- Lista onde os cards de tarefas serão criados pelo JavaScript -->
         <ul id="lista-tarefas"></ul>
     </div>
 
