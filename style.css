@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. RESET, BASE E CONTAINER PRINCIPAL
+   1. RESET, FLUIDEZ E PALETA PREMIUM
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -8,47 +8,84 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f8fafc; /* Cinza azulado bem suave */
+    color: #1e293b;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 }
 
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
     width: 100%;
-    max-width: 400px;
+    max-width: 440px;
 }
 
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 24px;
+    letter-spacing: -0.025em;
+}
+
+/* ==========================================================================
+   2. FORMULÁRIO DE ENTRADA INTEGRADO
+   ========================================================================== */
 form {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 28px;
 }
 
 input[type="text"] {
     flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
     font-family: inherit;
+    color: #334155;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
 }
 
-button {
-    padding: 8px 12px;
-    background-color: #3fdae6;
-    color: white;
+input[type="text"]::placeholder {
+    color: #94a3b8;
+}
+
+input[type="text"]:focus {
+    background-color: #ffffff;
+    border-color: #6366f1; /* Roxo/Indigo moderno */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    outline: none;
+}
+
+/* Botão principal de Salvar */
+form button {
+    padding: 0 20px;
+    background-color: #6366f1;
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+form button:hover {
+    background-color: #4f46e5;
+}
+
+form button:active {
+    transform: scale(0.98);
 }
 
 ul {
@@ -56,180 +93,227 @@ ul {
     padding: 0;
 }
 
-/* Força as tags LI originais a não aplicarem flexbox ou paddings que quebram o swipe */
 li {
     display: block !important;
     padding: 0 !important;
-    border-bottom: none !important;
 }
 
 /* ==========================================================================
-   2. ESTRUTURA DOS CARTÕES EM CAMADAS (SWIPE MOBILE)
+   3. CARTÕES DE TAREFA RENOVAODS
    ========================================================================== */
-
-/* O container invisível do card fixa o tamanho e esconde os excessos */
 .todo-item-wrapper {
-    position: relative;
-    overflow: hidden; 
-    background-color: #f1f3f5;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    height: 48px; 
+    margin-bottom: 12px;
+    min-height: 56px; 
     display: block !important;
-    transition: transform 0.4s ease, opacity 0.4s ease, height 0.4s ease, margin-bottom 0.4s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Os botões do banco ficam presos de forma ABSOLUTA no fundo, na DIREITA */
-.todo-actions-behind {
-    position: absolute !important;
-    top: 0;
-    right: 0; 
-    left: auto !important; 
-    width: 140px; 
-    height: 100%;
-    display: flex !important;
-    justify-content: flex-end;
-    z-index: 1; 
-}
-
-/* Estilização limpa dos botões ocultos */
-.todo-actions-behind button {
-    width: 70px !important;
-    height: 100% !important;
-    border: none !important;
-    border-radius: 0 !important;
-    font-weight: bold !important;
-    color: white !important;
-    cursor: pointer;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-.todo-actions-behind button.edit-btn { background-color: #3b82f6 !important; }
-.todo-actions-behind button.delete-btn { background-color: #dc3545 !important; }
-
-/* Procure pela classe .todo-content-front e substitua por esta versão: */
 .todo-content-front {
-    position: absolute !important; /* Mudado para absolute para sobrepor o fundo perfeitamente */
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important; /* Força a ocupar a largura total do card, selando os botões */
+    width: 100% !important; 
     height: 100% !important;
-    background: white !important;
-    padding: 0 15px;
-    z-index: 2 !important; /* Garante que fique estritamente ACIMA dos botões coloridos */
+    background: #ffffff !important;
+    padding: 14px 16px;
     display: flex !important;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box; 
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
-    transition: transform 0.15s ease-out;
-    will-change: transform;
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.todo-item-wrapper:hover .todo-content-front {
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
 
 .texto-tarefa {
     flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #334155;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 12px;
+}
+
+/* Container de Ações Minimalista */
+.botoes-acao-fixos {
+    display: flex;
+    gap: 6px;
+}
+
+/* CORREÇÃO AQUI: Removemos as bordas pretas herdadas nos ícones do card */
+.botoes-acao-fixos button {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    border: none !important; /* Limpa o contorno preto indesejado */
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Cores dos Ícones de Ação em formato sutil/flat */
+.edit-btn-fixo { color: #64748b !important; }
+.edit-btn-fixo:hover { background-color: #f1f5f9 !important; color: #2563eb !important; }
+
+.delete-btn-fixo { color: #64748b !important; }
+.delete-btn-fixo:hover { background-color: #fef2f2 !important; color: #dc2626 !important; }
+
+.botoes-acao-fixos svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.2;
+    fill: none;
+    stroke: currentColor;
 }
 
 /* ==========================================================================
-   3. EDIÇÃO INLINE E EXCLUSÃO CUSTOMIZADA
+   4. INTERFACE DE EDIÇÃO INLINE CLEAN
    ========================================================================== */
 .input-edicao {
     flex: 1;
-    padding: 6px 10px;
-    border: 1px solid #adadad;
-    border-radius: 6px;
-    font-size: 0.95rem;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.9rem;
     outline: none;
-    margin-right: 8px;
+    margin-right: 10px;
     font-family: inherit;
+    width: 100%;
+    color: #334155;
 }
 .input-edicao:focus {
-    border-color: #eab308;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
 }
 
 .botoes-edicao-rapida {
     display: flex;
-    gap: 4px;
+    gap: 6px;
 }
+
+/* CORREÇÃO AQUI: Remove as bordas pretas também dos botões de confirmação inline */
 .botoes-edicao-rapida button {
-    padding: 4px 10px !important;
-    font-size: 0.85rem;
-    border-radius: 6px !important;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    border: none !important; /* Remove contorno rígido */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     color: white;
 }
 
-.btn-salvar-inline { background-color: #28a745 !important; }
-.btn-cancelar-inline { background-color: #f53c3c !important; }
-.btn-confirmar-delete { background-color: #dc3545 !important; }
+.botoes-edicao-rapida svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+    fill: none;
+    stroke: currentColor;
+}
+
+.btn-salvar-inline { background-color: #10b981 !important; }
+.btn-salvar-inline:hover { background-color: #059669 !important; }
+
+.btn-cancelar-inline { background-color: #94a3b8 !important; }
+.btn-cancelar-inline:hover { background-color: #64748b !important; }
+
+.btn-confirmar-delete { background-color: #ef4444 !important; }
+.btn-confirmar-delete:hover { background-color: #dc2626 !important; }
 
 .aviso-excluir {
-    color: #dc3545;
-    font-weight: bold;
-    font-size: 0.95rem;
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 0.9rem;
     flex: 1;
 }
 
 /* ==========================================================================
-   4. PERFORMANCE E ANIMAÇÕES NITIDAS (SEM BLUR)
+   5. ANIMAÇÕES FLUIDAS
    ========================================================================== */
-
-/* Entrada por cima límpida */
-@keyframes surgirTarefaNitida {
-    from {
-        opacity: 0;
-        transform: translateY(-100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes surgirTarefa {
+    from { opacity: 0; transform: scale(0.96) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .adicionando-tarefa {
-    overflow: hidden;
-    margin-bottom: 10px;
-    height: 48px !important; 
-    filter: none !important;
-    -webkit-filter: none !important;
-}
-.adicionando-tarefa .todo-content-front {
-    animation: surgirTarefaNitida 0.25s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    transform: translateZ(0); 
-    will-change: transform, opacity;
+    animation: surgirTarefa 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Saída suave para a esquerda */
 .removendo-tarefa {
     opacity: 0 !important;
-    transform: translateX(-100%) !important;
+    transform: scale(0.92) translateY(-10px) !important;
     height: 0 !important;
     margin-bottom: 0 !important;
-    border: none !important;
+    transition: all 0.25s ease;
 }
 
 /* ==========================================================================
-   5. COMPATIBILIDADE DESKTOP (MONITOR)
+   6. BALÕES DE ERRO E TREMOR (SHAKE RENOVAODS)
    ========================================================================== */
-@media (min-width: 768px) {
-    .todo-content-front {
-        transform: none !important;
-        width: calc(100% - 140px) !important;
-        border-radius: 8px 0 0 8px;
-    }
-    .todo-item-wrapper {
-        overflow: visible;
-        display: flex !important;
-    }
-    .todo-actions-behind {
-        position: static !important;
-        width: 140px;
-    }
-    .todo-actions-behind button.edit-btn { border-radius: 0; }
-    .todo-actions-behind button.delete-btn { border-radius: 0 8px 8px 0; }
+.container-input-validacao {
+    position: relative;
+    flex: 1;
+    display: flex;
+}
+
+.balao-erro {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 4px;
+    background-color: #0f172a; /* Dark feedback modern style */
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+.balao-erro::before {
+    content: "⚠️";
+}
+
+.balao-erro::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #0f172a transparent;
+}
+
+.input-erro-shaking {
+    animation: shakeEfeito 0.4s ease-in-out;
+}
+
+.borda-erro-fixa, 
+.borda-erro-fixa:focus {
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+    outline: none !important;
+    background-color: #fef2f2 !important;
+}
+
+@keyframes shakeEfeito {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
 }
